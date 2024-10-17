@@ -96,8 +96,4 @@ def check_occupancy_events():
 
 
 if __name__ == "__main__":
-
-    while True:
-        check_occupancy_events()
-        # Sleep for 10 minutes (600 seconds)
-        time.sleep(5)
+    check_occupancy_events()
