@@ -33,10 +33,32 @@ Wants=network-online.target
 Type=oneshot
 User=superadmin
 Group=superadmin
-ExecStart=/opt/motion-checker/venv/...
+WorkingDirectory=/opt/motion-checker/
+ExecStart=/opt/motion-checker/venv/bin/python /opt/motion-checker/main.py
 
 [Install]
 WantedBy=multi-user.target
+
+EOF
+```
+
+
+```bash
+sudo tee /etc/systemd/system/motion-checker.timer > /dev/null << 'EOF' && sudo systemctl daemon-reload && sudo systemctl enable motion-checker.timer --now && systemctl list-timers --all
+[Unit]
+Description=Start motion-checker
+
+[Timer]
+OnCalendar=11:00
+OnCalendar=11:30
+OnCalendar=11:45
+OnCalendar=12:00
+
+Unit=motion-checker.service
+RandomizedDelaySec=3m
+
+[Install]
+WantedBy=timers.target
 
 EOF
 ```
